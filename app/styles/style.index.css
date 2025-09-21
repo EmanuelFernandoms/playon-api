@@ -137,7 +137,23 @@ p{
 
 
 @media (max-width: 900px){
+    nav{
+        padding: 15px;
+    }
+
+    nav img{
+        width: 150px;
+    }
+
     .modal_login{
-        width: 80%;
+        width: 90%;
+    }
+
+    .campos_login div{
+        width: 85%;
+    }
+
+    .botao_laranja{
+        width: 85%;
     }
 }
