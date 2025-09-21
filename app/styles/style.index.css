@@ -1,0 +1,11 @@
+body{
+    background-image: url('./../../assets/images/icons/icon_ball_background.svg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: 80% 90%;
+    background-attachment: fixed;
+}
+
+p{
+    height: 5000px;
+} 
