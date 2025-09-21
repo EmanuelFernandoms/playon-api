@@ -1,11 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=TASA+Orbiter:wght@400..800&display=swap');
+
+:root{
+    --roxo: #5900F8;
+    --roxo-escuro: #150028;
+    --branco: #E9E9E9;
+    --vermelho-escuro: #2B000A;
+    --laranja: #F15817;
+    --roxo-escuro-background: #040018;
+    --laranja-escuro: #772705;
+    --cinza-escuro: #4E4E4E;
+    --cinza-brackground: #F6F6F6;
+    --borda: #DEDEDE;
+}
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body{
-    background-image: url('./../../assets/images/icons/icon_ball_background.svg');
+    background-image: url('./../../assets/icons/icon_ball_background.svg');
     background-repeat: no-repeat;
     background-position: center top;
     background-size: 80% 90%;
     background-attachment: fixed;
+    font-family: "Inter", arial;
+}
+
+nav {
+    background-color: var(--laranja);
+    padding: 15px;
+}
+
+nav img{
+    width: 200px;
 }
 
 p{
     height: 5000px;
-} 
+}
+
+.modal_login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    height: 70vh;
+
+    background-color: var(--cinza-brackground);
+    border: 1px solid var(--borda);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+}
+
+.cabecalho_login{
+    height: 15%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right, var(--laranja-escuro), var(--laranja));
+    border-radius: 4px 4px 0 0;
+
+    & h2{
+        color: #fff;
+    }
+}
+
+.campos_login div{
+    width: 60%;
+}
+
+.campos_login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 65%;
+    gap: 15px
+}
+
+.modal_footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.botao_laranja{
+    background-color: #F15817;
+    color: white;
+    text-decoration: none;
+    width: 60%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.1s;
+
+    &:hover{
+        background-color: var(--laranja-escuro);
+    }
+}
+
+.link{
+    color: var(--cinza-escuro);
+    font-weight: bold;
+    transition: .1s;
+
+    &:hover{
+        color: #000000;
+    }
+}
+
+.input_default{
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.input_default:focus{
+    outline: none;
+    box-shadow: none;
+    border: 1px solid var(--laranja);
+}
+
+
+
+@media (max-width: 900px){
+    .modal_login{
+        width: 80%;
+    }
+}
