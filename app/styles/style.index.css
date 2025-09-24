@@ -28,9 +28,52 @@ body{
     font-family: "Inter", arial;
 }
 
+.alerta {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    width: 400px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: #fff5f4;
+    color: #9e413e;
+    font-weight: bold;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px rgba(247, 18, 18, 0.5);
+    overflow: hidden;
+    padding: 0 10px;
+
+    /* começa fora da tela à esquerda */
+    transform: translateX(-450px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.alerta span {
+    flex: 1;
+    text-align: left;
+    z-index: 1;          /* garante que fique sobre a barra */
+    position: relative;
+}
+
+.contador {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background-color: #9e413e;
+    transition: width 3s linear;
+    z-index: 0;           /* atrás do texto */
+}
+
+
 nav {
+    z-index: 100;
     background-color: var(--laranja);
     padding: 15px;
+    height: 8%;
 }
 
 nav img{
@@ -42,12 +85,8 @@ p{
 }
 
 .modal_login{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     width: 35%;
-    height: 70vh;
+    height: 75%;
 
     background-color: var(--cinza-brackground);
     border: 1px solid var(--borda);
@@ -82,9 +121,9 @@ p{
 }
 
 .modal_footer{
-    position: absolute;
+    /* position: absolute;
     bottom: 0;
-    left: 0;
+    left: 0; */
     width: 100%;
     height: 20%;
     display: flex;
@@ -134,9 +173,61 @@ p{
     border: 1px solid var(--laranja);
 }
 
+.input_cadastro{
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+}
 
+.input_cadastro:focus{
+    outline: red;
+    box-shadow: none;
+    border: 1px solid var(--laranja);
+}
+
+.container{
+    height: 92vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal_cadastro{
+    width: 35%;
+    height: 95%;
+
+    background-color: var(--cinza-brackground);
+    border: 1px solid var(--borda);
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 5px;
+}
+
+@media (max-height: 700px){
+    .input_cadastro{
+        height: 20px;
+    }
+
+    .modal_login{
+        height: 85%;
+    }
+}
+
+@media (max-width: 1200px){
+    .modal_login{
+        width: 70%;
+    }
+
+    .modal_cadastro{
+        width: 70%;
+    }
+}
 
 @media (max-width: 900px){
+    .alerta{
+        width: 200px;
+    }
+
     nav{
         padding: 15px;
     }
@@ -149,11 +240,20 @@ p{
         width: 90%;
     }
 
+    .modal_cadastro{
+        width: 90%;
+    }
+
     .campos_login div{
         width: 85%;
     }
 
     .botao_laranja{
         width: 85%;
+    }
+
+    body{
+        background-size: 100% auto;
+        background-repeat: repeat;
     }
 }

@@ -1,25 +1,104 @@
 <?php
+require_once __DIR__ . '/../../src/config/config.php';
+require_once __DIR__ . '/../../src/config/session.php';
+require_once __DIR__ . '/../../src/database/conexao.php';
+session_start();
 
-require_once __DIR__ . '/../app/config/config.php';
-require_once __DIR__ . '/../app/config/session.php';
-
-include_once "../app/classes/utils.php";
-
-include_once "../app/database/conexao.php";
 
 if (!isset($connection)) {
-    include_once __DIR__ . "/../app/database/Database.php";
+    include_once __DIR__ . "/../../src/database/Database.php";
     $connection = Database::getConnection();
 }
 
-if ($_server["REQUEST_METHOD"] === "GET") {
-    
-} else if ($_server["REQUEST_METHOD"] === "POST") {
+if ($_SERVER["REQUEST_METHOD"] === "GET") {
+    if ($_GET["endpoint"] === "teste") {
+        $teste = $_GET['teste'] ?? null;
+        echo $teste;
+    }
+} else if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if ($_GET["endpoint"] === "start_session") {
+        $email = $_POST["email"];
+        
+        $stmt = $connection->prepare("
+            SELECT
+                *
+            FROM
+                usuarios u
+            WHERE
+                u.email = :email
+        ");
+        $stmt->execute([':email' => $email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        iniciarSessao(
+            $usuario["id"], 
+            $usuario["nome_completo"],
+            $usuario["email"],
+            $usuario["telefone"],
+            $usuario["foto_perfil"],
+            $usuario["status"],
+        );
+    } else if ($_GET["endpoint"] === "session_die") {
+        session_unset();
+        session_destroy();
+        header(BASE_URL . `/index.php`);
+    } else if ($_GET["endpoint"] === "cadastrar_usuario") {
 
-} else if ($_server["REQUEST_METHOD"] === "PUT") {
+        $email      = $_POST["email"];
+        $senha      = $_POST["senha"];
+        $nome       = $_POST["nome"];
+        $telefone   = $_POST["telefone"];
+
+        $stmt = $connection->prepare("
+            SELECT
+                *
+            FROM
+                usuarios u
+            WHERE
+                u.email = :email
+        ");
+        $stmt->execute([':email' => $email]);
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($usuario !== false) {
+            echo "email_existe";
+            die();
+        }
+
+        $stmt = $connection->prepare("
+            INSERT INTO usuarios
+            (nome_completo, email, senha, telefone, created_at, updated_at)
+            values (
+                :nome_completo,
+                :email,
+                :senha,
+                :telefone,
+                NOW(),
+                NOW()
+            )
+        ");
+        $success = $stmt->execute([
+            ':nome_completo'    => $nome,
+            ':email'            => $email,
+            ':senha'            => $senha,
+            ':telefone'         => $telefone
+        ]);
+        $id = $connection->lastInsertId();
+        if ($success){
+            iniciarSessao(
+                $id, 
+                $nome,
+                $email,
+                $telefone,
+                null,
+                "ativo",
+            );
+            echo true;
+        }
+
+    }
+} else if ($_SERVER["REQUEST_METHOD"] === "PUT") {
     
-} else if ($_server["REQUEST_METHOD"] === "PATCH") {
+} else if ($_SERVER["REQUEST_METHOD"] === "PATCH") {
     
-} else if ($_server["REQUEST_METHOD"] === "DELETE") {
+} else if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
     
 }

@@ -9,6 +9,7 @@ $dotenv->load();
 define('DEBUG_MODE', true);
 define('BASE_URL', (!empty($_ENV['BASE_URL'])) ? $_ENV['BASE_URL'] : getenv("BASE_URL"));
 define('API_URL', (!empty($_ENV['API_URL'])) ? $_ENV['API_URL'] : getenv("API_URL"));
+define('APP_ENV', (!empty($_ENV['APP_ENV'])) ? $_ENV['APP_ENV'] : getenv("APP_ENV"));
 
 // set config (database)
 define('DB_HOST', (!empty($_ENV['DB_HOST'])) ? $_ENV['DB_HOST'] : getenv("DB_HOST"));
