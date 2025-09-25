@@ -4,19 +4,37 @@ function iniciarSessao() {
     let email = document.getElementById("email_login").value;
     let senha = document.getElementById("senha_login").value;
 
-    const data = {
-        email: email,
-        senha: senha
+    if (email == ""){
+        mostrarAlerta("Email Não Preenchido!");
+    } else if (senha == ""){
+        mostrarAlerta("Senha Não Preenchida!");
+    } else {
+        const data = {
+            email: email,
+            senha: senha
+        }
+        $.ajax({
+            url: `${baseUrl}/api/start_session`,
+            type: "POST",
+            data: data
+        }).done(function(response) {
+            if (response == "email_invalido"){
+                mostrarAlerta("Email Não Cadastrado!");
+                return;
+            }
+            else if (response == "senha_invalida"){
+                mostrarAlerta("Senha Inválida!");
+                return;
+            }
+            else if (response == "true"){
+                window.location.href = "./app/principal.php";
+                return;
+            }
+        }).fail(function(jqXHR, textStatus) {
+            console.log("Request failed: " + textStatus);
+        })
     }
-    $.ajax({
-        url: `${baseUrl}/api/start_session`,
-        type: "POST",
-        data: data
-    }).done(function(response) {
-        console.log(response);
-    }).fail(function(jqXHR, textStatus) {
-        console.log("Request failed: " + textStatus);
-    })
+
 }   
 
 function cadastrarUsuario(){
@@ -52,10 +70,11 @@ function cadastrarUsuario(){
         }).done(function(response) {
             if (response == "email_existe"){
                 mostrarAlerta("Email Já Cadastrado!");
+                return;
             } 
             else if (response == "true"){
-                header("Location: ./app/principal.php");
-                exit();
+                window.location.href = "./app/principal.php";
+                return;
             }
         }).fail(function(jqXHR, textStatus) {
             console.log("Request failed: " + textStatus);

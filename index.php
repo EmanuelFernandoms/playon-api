@@ -22,6 +22,10 @@ if (isset($_SESSION["usuario"])){
     <nav>
         <img src="./assets/icons/playon vermelho.svg" alt="">
     </nav>
+    <div class="alerta" id="alerta">
+        <div class="contador" id="contador"></div>
+        <span id="mensagemAlerta"></span>
+    </div>
     <div class="container">
         <div class="modal_login">
             <div class="cabecalho_login">

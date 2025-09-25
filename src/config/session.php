@@ -22,6 +22,4 @@ function iniciarSessao($id, $nome, $email, $telefone, $foto_perfil, $status){
         'foto_perfil' => $foto_perfil,
         'status' => $status
     ];
-
-    echo $_SESSION["usuario"]["id"];
 }

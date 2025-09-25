@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 } else if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($_GET["endpoint"] === "start_session") {
         $email = $_POST["email"];
+        $senha = $_POST["senha"];
         
         $stmt = $connection->prepare("
             SELECT
@@ -29,6 +30,16 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         ");
         $stmt->execute([':email' => $email]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario == false){
+            echo "email_invalido";
+            die();
+        } else if (!password_verify($senha, $usuario["senha"])){
+            echo "senha_invalida";
+            die();
+        }
+
+        echo "true";
         iniciarSessao(
             $usuario["id"], 
             $usuario["nome_completo"],
@@ -45,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
         $email      = $_POST["email"];
         $senha      = $_POST["senha"];
+        $senha      = password_hash($senha, PASSWORD_DEFAULT);
         $nome       = $_POST["nome"];
         $telefone   = $_POST["telefone"];
 
@@ -53,8 +65,9 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 *
             FROM
                 usuarios u
-            WHERE
-                u.email = :email
+            WHERE u.email = :email
+              AND u.status != 'bloqueado';
+
         ");
         $stmt->execute([':email' => $email]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -91,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 null,
                 "ativo",
             );
-            echo true;
+            echo "true";
         }
 
     }
